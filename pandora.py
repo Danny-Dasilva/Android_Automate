@@ -20,11 +20,11 @@ def download(width, height):
     device.shell(f"input tap {x} {y}")
     # device.shell(f"input tap {x} {y}")
     
-    sleep(.2)
+    sleep(1)
     x = width * .85
     y = height * .51
     device.shell(f"input tap {x} {y}")
-    sleep(.8)
+    sleep(2)
     skip(width, height)
 def crop_image(image, width, height):
     top = height / 1.8 
@@ -60,7 +60,7 @@ def run():
     read = pytesseract.image_to_string(im)
     print(read)
     search = 'North Texas'
-    if search in read:
+    if search in read or 'Clock' in read:
         print('donwload')
         download(width, height)
         return 1
@@ -71,10 +71,10 @@ def run():
 
 if __name__ == "__main__":
     count = 0 
-    while count != 100:
+    while count != 500:
 
         count += run()
-        sleep(2)
+        sleep(3)
         print(count)
 
 # device.shell(f'input touchscreen swipe 500 500 500 500 {int(distance)}')
