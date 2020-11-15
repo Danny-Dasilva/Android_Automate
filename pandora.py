@@ -44,34 +44,58 @@ if len(devices) == 0:
 device = devices[0]
 # device.shell('input touchscreen swipe 500 500 500 500')
 
+# image = device.screencap()
+def read_like(image):
+    width, height = image.size 
+    top = height * .81
+    bottom = height * .86
+    left = width * .85
+    right = width * .95
+    cropped_img = image.crop((left, top, right, bottom)) 
+    color_lst = cropped_img.getcolors()
+    total = 0
+    for values in color_lst:
+        total += values[0]
+    percentage = color_lst[0][0]/total 
+    return percentage
+# cropped_img.save('like.png', 'PNG')
+
+#write images
+# with open('like.png', 'wb') as f:
+    # f.write(cropped_img)
+# image = Image.open('screen.png')
+
+# Setting the points for cropped image 
+
 def run():
     image = device.screencap()
 
     image = Image.open(io.BytesIO(image))
     width, height = image.size 
-#write images
-# with open('screen.png', 'wb') as f:
-    # f.write(image)
-# image = Image.open('screen.png')
+    percentage = read_like(image) 
+    print(percentage)
+    if percentage < 0.48:
 
-# Setting the points for cropped image 
-
-    im = crop_image(image, width, height)
-    read = pytesseract.image_to_string(im)
-    print(read)
-    search = 'North Texas'
-    if search in read or 'Clock' in read:
-        print('donwload')
-        download(width, height)
-        return 1
+        im = crop_image(image, width, height)
+        read = pytesseract.image_to_string(im)
+        print(read)
+        search = 'North Texas'
+        if search in read or 'Clock' in read:
+            print('donwload')
+            download(width, height)
+            return 1
+        else:
+            print('skip')
+            skip(width, height)
+            return 0
     else:
-        print('skip')
+        print("already liked")
         skip(width, height)
-        return 0
+        return 0 
 
 if __name__ == "__main__":
     count = 0 
-    while count != 500:
+    while count != 5:
 
         count += run()
         sleep(3)
