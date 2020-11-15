@@ -52,7 +52,8 @@ def read_like(image):
     left = width * .85
     right = width * .95
     cropped_img = image.crop((left, top, right, bottom)) 
-    color_lst = cropped_img.getcolors()
+    color_lst = cropped_img.getcolors(cropped_img.size[0] * cropped_img.size[1])
+    cropped_img.save('test.png', 'PNG')
     total = 0
     for values in color_lst:
         total += values[0]
@@ -95,7 +96,7 @@ def run():
 
 if __name__ == "__main__":
     count = 0 
-    while count != 5:
+    while count != 100:
 
         count += run()
         sleep(3)
