@@ -81,7 +81,7 @@ def run():
         read = pytesseract.image_to_string(im)
         print(read)
         search = 'North Texas'
-        if search in read or 'Clock' in read:
+        if search in read or 'Clock' in read or 'UNT' in read:
             print('donwload')
             download(width, height)
             return 1
